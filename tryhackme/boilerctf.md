@@ -1,6 +1,6 @@
 # Boiler CTF
 
-Intermediate level CTF
+Intermediate level CTF. Just enumerate, you'll get there.
 
 ## Enumeration
 
@@ -72,3 +72,41 @@ Disallow: /
 
 079 084 108 105 077 068 089 050 077 071 078 107 079 084 086 104 090 071 086 104 077 122 073 051 089 122 085 048 077 084 103 121 089 109 070 104 078 084 069 049 079 068 081 075
 ```
+
+None of the directories seemed to be accessible but the last line seemed like
+an encoded message. Using the numbers with their corresponding ASCII values we
+get:
+
+```
+OTliMDY2MGNgOTVhZGVhMzIYzU0MTgYmFhNTQzYmFhMzIzYzUwYmMzYmY0NTY
+```
+
+Which gives us a base64 encoded message.
+Decoding it we get:
+
+```
+99b0660cd95adea327c54182baa51584
+```
+
+Which seemed like a hash and using a rainbow table we found the word
+
+```
+kidding
+```
+
+lol damn we propably got trolled again.
+
+The message for this room said to keep enumerating so thats what I will do...
+And after quite a while of fuzzing I finally found:
+
+```
+[Status: 301, Size: 322, Words: 20, Lines: 10, Duration: 48ms]
+    * FIRST: joomla
+    * SECOND: images
+```
+
+Now /joomla/images only gave us a blank page but now we have something to go by.
+Having never heard of Joomla before I did some googling and found out that it
+is a content management system (CMS) that allows you to build websites. So we
+keep enumerating using joomla
+
