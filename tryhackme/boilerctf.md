@@ -108,5 +108,34 @@ And after quite a while of fuzzing I finally found:
 Now /joomla/images only gave us a blank page but now we have something to go by.
 Having never heard of Joomla before I did some googling and found out that it
 is a content management system (CMS) that allows you to build websites. So we
-keep enumerating using joomla
+keep enumerating using joomla joomla/FUZZ and shortly we find a lot of stuff.
 
+```
+media                   [Status: 301, Size: 319, Words: 20, Lines: 10, Duration: 46ms]
+templates               [Status: 301, Size: 323, Words: 20, Lines: 10, Duration: 49ms]
+images                  [Status: 301, Size: 320, Words: 20, Lines: 10, Duration: 2820ms]
+modules                 [Status: 301, Size: 321, Words: 20, Lines: 10, Duration: 48ms]
+tests                   [Status: 301, Size: 319, Words: 20, Lines: 10, Duration: 57ms]
+bin                     [Status: 301, Size: 317, Words: 20, Lines: 10, Duration: 48ms]
+plugins                 [Status: 301, Size: 321, Words: 20, Lines: 10, Duration: 57ms]
+includes                [Status: 301, Size: 322, Words: 20, Lines: 10, Duration: 48ms]
+language                [Status: 301, Size: 322, Words: 20, Lines: 10, Duration: 48ms]
+README.txt              [Status: 200, Size: 4793, Words: 479, Lines: 72, Duration: 51ms]
+components              [Status: 301, Size: 324, Words: 20, Lines: 10, Duration: 49ms]
+cache                   [Status: 301, Size: 319, Words: 20, Lines: 10, Duration: 48ms]
+index.php               [Status: 200, Size: 12478, Words: 772, Lines: 259, Duration: 118ms]
+libraries               [Status: 301, Size: 323, Words: 20, Lines: 10, Duration: 52ms]
+installation            [Status: 301, Size: 326, Words: 20, Lines: 10, Duration: 48ms]
+build                   [Status: 301, Size: 319, Words: 20, Lines: 10, Duration: 49ms]
+LICENSE.txt             [Status: 200, Size: 18092, Words: 3133, Lines: 340, Duration: 49ms]
+tmp                     [Status: 301, Size: 317, Words: 20, Lines: 10, Duration: 54ms]
+layouts                 [Status: 301, Size: 321, Words: 20, Lines: 10, Duration: 47ms]
+```
+
+I start by exploring the index.php page to get aquanted with the site. There is 
+a pretty standard joomla site with a login page but there doesn't seem to be
+any default passwords for Joomla sites.
+
+Checking the Readme.txt file we find that we seem to be running Joomla v3.9.
+Checking CVE information shows that old version of Joomla have been plagued with
+vulnerabilities, which we might be able to exploit.
